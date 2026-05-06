@@ -1,4 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useCallback
+} from "react";
 import "./App.css";
 import logo from "./assets/image.png";
 
@@ -116,7 +121,7 @@ function App() {
     return () => clearInterval(timer);
   }, [tracking]);
 
-  const handlePosition = (positionEvent) => {
+  const handlePosition = useCallback((positionEvent) => {
     setStatus("GPS signal locked");
     setGpsAccuracy(positionEvent.coords.accuracy);
     const { latitude, longitude } = positionEvent.coords;
@@ -167,7 +172,7 @@ function App() {
 
     prevPositionRef.current = { lat: latitude, lng: longitude };
     prevTimeRef.current = currentTime;
-  };
+  }, []);
 
   const handleError = (err) => {
   setTracking(false);
@@ -206,8 +211,6 @@ function App() {
   };
 
   const smoothSpeed = (current, previous) => previous + (current - previous) * 0.5;
-
-  const getRawMaxSpeed = (kmh) => kmh;
 
   const pushLogEntry = (speedKmh, distanceMetersDelta) => {
     const entry = {

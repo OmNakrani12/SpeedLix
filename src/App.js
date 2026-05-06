@@ -78,49 +78,20 @@ function App() {
     );
   };
 
-  useEffect(() => {
-    if (!tracking) return;
-    if (!("geolocation" in navigator)) {
-      setError("Geolocation unsupported in this browser.");
-      setStatus("Offline");
-      setTracking(false);
-      return;
-    }
-
-    setError("");
-    setStatus("Initializing GPS...");
-    startTimeRef.current = startTimeRef.current || Date.now();
-
-    const watchId = navigator.geolocation.watchPosition(
-      handlePosition,
-      handleError,
-      {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 10000,
-      }
-    );
-
-    watchIdRef.current = watchId;
-
-    return () => {
-      if (watchIdRef.current !== null) {
-        navigator.geolocation.clearWatch(watchIdRef.current);
-        watchIdRef.current = null;
-      }
+  
+  const pushLogEntry = useCallback((speedKmh, distanceMetersDelta) => {
+    const entry = {
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+      speed: convertSpeed(speedKmh),
+      distance: convertDistance(distanceMetersDelta),
     };
-  }, [tracking]);
-
-  useEffect(() => {
-    if (!tracking) return;
-    const timer = setInterval(() => {
-      if (!startTimeRef.current) return;
-      setElapsedSeconds(Math.floor((Date.now() - startTimeRef.current) / 1000));
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [tracking]);
-
+    
+    setLog((current) => [entry, ...current].slice(0, 5));
+  },[unit]);
   const handlePosition = useCallback((positionEvent) => {
     setStatus("GPS signal locked");
     setGpsAccuracy(positionEvent.coords.accuracy);
@@ -172,7 +143,7 @@ function App() {
 
     prevPositionRef.current = { lat: latitude, lng: longitude };
     prevTimeRef.current = currentTime;
-  }, []);
+  }, [pushLogEntry]);
 
   const handleError = (err) => {
   setTracking(false);
@@ -189,14 +160,14 @@ function App() {
   }
 };
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371000;
-    const toRad = (angle) => (angle * Math.PI) / 180;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) *
+const getDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371000;
+  const toRad = (angle) => (angle * Math.PI) / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+  Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+  Math.cos(toRad(lat1)) *
         Math.cos(toRad(lat2)) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
@@ -209,41 +180,28 @@ function App() {
     if (kmh >= 70) return "⚠️ High-speed mode active. Stay vigilant.";
     return "";
   };
-
+  
   const smoothSpeed = (current, previous) => previous + (current - previous) * 0.5;
-
-  const pushLogEntry = (speedKmh, distanceMetersDelta) => {
-    const entry = {
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }),
-      speed: convertSpeed(speedKmh),
-      distance: convertDistance(distanceMetersDelta),
-    };
-
-    setLog((current) => [entry, ...current].slice(0, 5));
-  };
-
+  
+  
   const toggleTracking = () => {
     if (tracking) {
       setTracking(false);
       setStatus("Paused");
       return;
     }
-
+    
     if (!permissionGranted) {
       requestPermission();
       return;
     }
-
+    
     prevPositionRef.current = null;
     prevTimeRef.current = null;
     setStatus("Starting tracking...");
     setTracking(true);
   };
-
+  
   const resetDashboard = () => {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
@@ -266,16 +224,16 @@ function App() {
     setError("");
     setStatus("System idle");
   };
-
+  
   const convertSpeed = (kmh) =>
     unit === "mph" ? kmh * 0.621371 : unit === "ms" ? kmh / 3.6 : kmh;
   const convertDistance = (meters) =>
     unit === "mph"
-      ? meters * 0.000621371
-      : unit === "ms"
-      ? meters
-      : meters * 0.001;
-
+  ? meters * 0.000621371
+  : unit === "ms"
+  ? meters
+  : meters * 0.001;
+  
   const displayedSpeed = convertSpeed(speed);
   const displayedMax = convertSpeed(maxSpeed);
   const averageKmh = elapsedSeconds > 0 ? (distanceMeters * 3.6) / elapsedSeconds : 0;
@@ -285,11 +243,54 @@ function App() {
   const selectedMode = SPEED_MODES.find((mode) => speed <= mode.max) || SPEED_MODES[SPEED_MODES.length - 1];
   const formattedTime = new Date(elapsedSeconds * 1000).toISOString().substr(11, 8);
   const markers =
-    unit === "mph"
-      ? [0, 20, 40, 60, 80, 100, 120]
-      : unit === "ms"
-      ? [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
-      : [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
+  unit === "mph"
+  ? [0, 20, 40, 60, 80, 100, 120]
+  : unit === "ms"
+  ? [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+  : [0, 20, 40, 60, 80, 100, 120, 140, 160, 180];
+  
+  useEffect(() => {
+    if (!tracking) return;
+    if (!("geolocation" in navigator)) {
+      setError("Geolocation unsupported in this browser.");
+      setStatus("Offline");
+      setTracking(false);
+      return;
+    }
+  
+    setError("");
+    setStatus("Initializing GPS...");
+    startTimeRef.current = startTimeRef.current || Date.now();
+  
+    const watchId = navigator.geolocation.watchPosition(
+      handlePosition,
+      handleError,
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000,
+      }
+    );
+  
+    watchIdRef.current = watchId;
+  
+    return () => {
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+        watchIdRef.current = null;
+      }
+    };
+  }, [tracking, handlePosition]);
+  
+  useEffect(() => {
+    if (!tracking) return;
+    const timer = setInterval(() => {
+      if (!startTimeRef.current) return;
+      setElapsedSeconds(Math.floor((Date.now() - startTimeRef.current) / 1000));
+    }, 1000);
+  
+    return () => clearInterval(timer);
+  }, [tracking]);
 
   return (
     <div className="app-shell">
@@ -362,7 +363,7 @@ function App() {
           </div>
           <div className="metric-card">
             <span>Acceleration</span>
-            <strong>{acceleration.toFixed(2)} {unit === "mph" ? "mph/s" : "km/h²"}</strong>
+            <strong>{acceleration.toFixed(2)} {unit === "mph" ? "mph/s" : "km/h/s"}</strong>
           </div>
           <div className="metric-card">
             <span>GPS Accuracy</span>

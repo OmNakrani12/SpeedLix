@@ -2,7 +2,6 @@ import React, {
   useEffect,
   useState,
   useRef,
-  useCallback
 } from "react";
 import "./App.css";
 import logo from "./assets/image.png";
@@ -79,7 +78,7 @@ function App() {
   };
 
   
-  const pushLogEntry = useCallback((speedKmh, distanceMetersDelta) => {
+  const pushLogEntry = (speedKmh, distanceMetersDelta) => {
     const entry = {
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
@@ -91,8 +90,8 @@ function App() {
     };
     
     setLog((current) => [entry, ...current].slice(0, 5));
-  },[unit]);
-  const handlePosition = useCallback((positionEvent) => {
+  };
+  const handlePosition = (positionEvent) => {
     setStatus("GPS signal locked");
     setGpsAccuracy(positionEvent.coords.accuracy);
     const { latitude, longitude } = positionEvent.coords;
@@ -143,7 +142,7 @@ function App() {
 
     prevPositionRef.current = { lat: latitude, lng: longitude };
     prevTimeRef.current = currentTime;
-  }, [pushLogEntry]);
+  };
 
   const handleError = (err) => {
   setTracking(false);
@@ -280,7 +279,7 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
         watchIdRef.current = null;
       }
     };
-  }, [tracking, handlePosition]);
+  }, [tracking]);
   
   useEffect(() => {
     if (!tracking) return;

@@ -1,55 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>SpeedLix - GPS Speedometer</title>
+    <meta charset="utf-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    <!-- ===================================== -->
+    <!-- SEO TITLE -->
+    <!-- ===================================== -->
+
+    <title>
+      SpeedLix - Real-Time GPS Speedometer & Live Speed Tracker
+    </title>
+
+    <!-- ===================================== -->
+    <!-- SEO DESCRIPTION -->
+    <!-- ===================================== -->
 
     <meta
       name="description"
-      content="Real-time GPS speedometer with live tracking and provide accurate speed readings for your journeys."
+      content="
+        SpeedLix is a real-time GPS speedometer web app
+        that provides accurate live speed tracking,
+        trip monitoring, and responsive performance
+        directly in your browser.
+      "
     />
+
+    <!-- ===================================== -->
+    <!-- SEO KEYWORDS -->
+    <!-- ===================================== -->
 
     <meta
       name="keywords"
-      content="gps speedometer,speed tracker,live speed"
+      content="
+        gps speedometer,
+        live speed tracker,
+        real-time speedometer,
+        GPS tracking,
+        speed tracking app,
+        live GPS speed,
+        online speedometer
+      "
     />
 
-    <meta name="author" content="Om Nakrani" />
-    <meta charset="utf-8" />
-    <meta name="application-name" content="SpeedLix" />
-    <meta name="apple-mobile-web-app-title" content="SpeedLix" />
-    <meta name="msvalidate.01" content="5BCDAC85D10F695101104CD8023E7F53" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="google-site-verification" content="11bpScKG72MZADwLlSvLmWgamZJjRQc7WC_7wVSRUDw" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <!-- ===================================== -->
+    <!-- AUTHOR -->
+    <!-- ===================================== -->
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+    <meta
+      name="author"
+      content="Om Nakrani"
+    />
+
+    <!-- ===================================== -->
+    <!-- WEBSITE NAME -->
+    <!-- ===================================== -->
+
+    <meta
+      name="application-name"
+      content="SpeedLix"
+    />
+
+    <meta
+      name="apple-mobile-web-app-title"
+      content="SpeedLix"
+    />
+
+    <!-- ===================================== -->
+    <!-- GOOGLE VERIFICATION -->
+    <!-- ===================================== -->
+
+    <meta
+      name="google-site-verification"
+      content="11bpScKG72MZADwLlSvLmWgamZJjRQc7WC_7wVSRUDw"
+    />
+
+    <!-- ===================================== -->
+    <!-- BING VERIFICATION -->
+    <!-- ===================================== -->
+
+    <meta
+      name="msvalidate.01"
+      content="5BCDAC85D10F695101104CD8023E7F53"
+    />
+
+    <!-- ===================================== -->
+    <!-- FAVICON -->
+    <!-- ===================================== -->
+
+    <link
+      rel="icon"
+      href="%PUBLIC_URL%/favicon.ico"
+    />
+
+    <!-- ===================================== -->
+    <!-- APPLE ICON -->
+    <!-- ===================================== -->
+
+    <link
+      rel="apple-touch-icon"
+      href="%PUBLIC_URL%/logo192.png"
+    />
+
+    <!-- ===================================== -->
+    <!-- MANIFEST -->
+    <!-- ===================================== -->
+
+    <link
+      rel="manifest"
+      href="%PUBLIC_URL%/manifest.json"
+    />
+
+    <!-- ===================================== -->
+    <!-- OPEN GRAPH TAGS -->
+    <!-- ===================================== -->
+
+    <meta
+      property="og:site_name"
+      content="SpeedLix"
+    />
+
+    <meta
+      property="og:title"
+      content="
+        SpeedLix - Real-Time GPS Speedometer
+      "
+    />
+
+    <meta
+      property="og:description"
+      content="
+        Track your live speed accurately
+        using GPS technology with SpeedLix.
+      "
+    />
+
+    <meta
+      property="og:url"
+      content="https://speed-lix.vercel.app"
+    />
+
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:image"
+      content="https://speed-lix.vercel.app/logo512.png"
+    />
+
+    <!-- ===================================== -->
+    <!-- TWITTER TAGS -->
+    <!-- ===================================== -->
+
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="
+        SpeedLix - Real-Time GPS Speedometer
+      "
+    />
+
+    <meta
+      name="twitter:description"
+      content="
+        Accurate live GPS speed tracking
+        directly in your browser.
+      "
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://speed-lix.vercel.app/logo512.png"
+    />
+
+    <!-- ===================================== -->
+    <!-- STRUCTURED DATA -->
+    <!-- ===================================== -->
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "SpeedLix",
+        "url": "https://speed-lix.vercel.app",
+        "author": {
+          "@type": "Person",
+          "name": "Om Nakrani"
+        },
+        "description": "Real-time GPS speedometer with accurate live tracking."
+      }
+    </script>
   </head>
+
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

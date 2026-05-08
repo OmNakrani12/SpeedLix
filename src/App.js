@@ -302,7 +302,7 @@ const getDistance = (lat1, lon1, lat2, lon2) => {
           />
 
           <div>
-
+            <h1>Real-Time GPS Speedometer</h1>
             <p className="subtitle">
               Live GPS tracking · distance · velocity · telemetry
             </p>
